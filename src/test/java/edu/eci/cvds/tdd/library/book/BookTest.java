@@ -1,8 +1,8 @@
 package edu.eci.cvds.tdd.library.book;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
+
 public class BookTest {
 
 
