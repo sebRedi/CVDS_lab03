@@ -14,6 +14,7 @@ public class UserTest {
         assertEquals(name, user.getName());
     }
 
+    @Test
     public void shouldReturnTheId() {
         String id = "123456";
         User user = new User();
