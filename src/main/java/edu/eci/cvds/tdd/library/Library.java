@@ -5,6 +5,7 @@ import edu.eci.cvds.tdd.library.loan.Loan;
 import edu.eci.cvds.tdd.library.loan.LoanStatus;
 import edu.eci.cvds.tdd.library.user.User;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,11 +98,21 @@ public class Library {
      * @return the loan with the RETURNED status.
      */
     public Loan returnLoan(Loan loan) {
-        //TODO Implement the login of loan a book to a user based on the UserId and the isbn.
-        return null;
+        if (loan == null || loan.getStatus() != LoanStatus.ACTIVE) return null;
+
+        // Marcar el préstamo como devuelto
+        loan.setStatus(LoanStatus.RETURNED);
+        loan.setReturnDate(LocalDate.now().atStartOfDay());
+
+        // Aumentar la cantidad disponible del libro
+        Book book = loan.getBook();
+        books.put(book, books.getOrDefault(book, 0) + 1);
+
+        return loan;
     }
 
     public boolean addUser(User user) {
+        if (user == null) return false;
         return users.add(user);
     }
 
