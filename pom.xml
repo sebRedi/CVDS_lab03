@@ -9,13 +9,25 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>Library</name>
-  <url>http://maven.apache.org</url>
+  <url>https://maven.apache.org</url>
+
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <sonar.projectKey>library</sonar.projectKey>
+    <sonar.projectName>library</sonar.projectName>
+    <sonar.host.url>http://localhost:9000</sonar.host.url>
+    <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+<<<<<<< HEAD
+    <sonar.coverage.exclusions>src/main/java/configurators/*</sonar.coverage.exclusions>
+=======
+    <sonar.coverage.exclusions>src//configurators/*</sonar.coverage.exclusions>
+>>>>>>> 04b9d1b5e4b3549866d898a01ee18257992952fb
   </properties>
+
   <build>
     <plugins>
+      <!-- Plugin de Jacoco para cobertura -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
@@ -34,7 +46,7 @@
             </goals>
             <configuration>
               <excludes>
-                <exclude>/configurators/</exclude>
+                <exclude>src/main/java/configurators/*</exclude>
               </excludes>
             </configuration>
           </execution>
@@ -51,7 +63,7 @@
                     <limit>
                       <counter>CLASS</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.85</minimum><!--Porcentaje mínimo de cubrimiento para construir el proyecto-->
+                      <minimum>0.85</minimum> <!--Porcentaje mínimo de cobertura-->
                     </limit>
                   </limits>
                 </rule>
@@ -60,12 +72,25 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>4.0.0.4121</version>
+      </plugin>
     </plugins>
   </build>
+
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
+      <version>5.11.4</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
       <version>5.11.4</version>
       <scope>test</scope>
     </dependency>

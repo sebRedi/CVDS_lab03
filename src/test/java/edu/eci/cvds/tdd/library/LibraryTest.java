@@ -1,79 +1,200 @@
 package edu.eci.cvds.tdd.library;
 
-import edu.eci.cvds.tdd.library.book.BookTest;
-import edu.eci.cvds.tdd.library.loan.LoanTest;
-import edu.eci.cvds.tdd.library.loan.LoanStatusTest;
-import edu.eci.cvds.tdd.library.user.UserTest;
+import edu.eci.cvds.tdd.library.book.Book;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import edu.eci.cvds.tdd.library.loan.Loan;
+import edu.eci.cvds.tdd.library.loan.LoanStatus;
+import edu.eci.cvds.tdd.library.user.User;
 
-/**
- * Library responsible for manage the loans and the users.
- */
+import org.junit.jupiter.api.*;
+
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class LibraryTest {
 
-    private final List<UserTest> users;
-    private final Map<BookTest, Integer> books;
-    private final List<LoanTest> loans;
+    // AddBook
 
-    public LibraryTest() {
-        users = new ArrayList<>();
-        books = new HashMap<>();
-        loans = new ArrayList<>();
+    @Test
+    public void shouldIncreaseTheAmountInAddBook(){
+        Book testBook = new Book("100 años de soledad", "Gabriel Garcia", "1000");
+        Library library = new Library();
+        // Ver que la cantidad de libros sea 0
+        assertEquals(0,library.getQuantityOfBooks());
+
+        library.addBook(testBook);
+        // Ver que la cantidad de libros haya aumentado
+        assertEquals(1,library.getAvailableQuantityOfBooks(testBook));
+
+        library.addBook(testBook);
+        // Ver que la cantidad de libros disponibles de un libro específico haya aumentado
+        assertEquals(2,library.getAvailableQuantityOfBooks(testBook));
+        }
+
+    @Test
+    public void shouldAddBookToLibrary(){
+        Book testBook = new Book("100 años de soledad", "Gabriel Garcia", "1000");
+        Library library = new Library();
+        library.addBook(testBook);
+        assertTrue(1 >= library.getAvailableQuantityOfBooks(testBook));
     }
 
-    /**
-     * Adds a new {@link BookTest} into the system, the book is store in a Map that contains
-     * the {@link BookTest} and the amount of books available, if the book already exist the
-     * amount should increase by 1 and if the book is new the amount should be 1, this method returns true if the
-     * operation is successful false otherwise.
-     *
-     * @param book The book to store in the map.
-     *
-     * @return true if the book was stored false otherwise.
-     */
-    public boolean addBook(BookTest book) {
-        //TODO Implement the logic to add a new book into the map.
-        return false;
+    @Test
+    public void shouldReturnLoanSuccessfuly(){
+        Library library = new Library();
+        User user = new User();
+        user.setName("Pepito");
+        user.setId("1234");
+        Book book = new Book("El Quijote", "Miguel Saavedra", "1001");
+
+        library.addUser(user);
+        library.addBook(book);
+
+        // Simulamos un préstamo activo
+        Loan loan = library.loanABook(user.getId(), book.getIsbn());
+
+        assertNotNull(loan);
+
+        Loan returnedLoan = library.returnLoan(loan);
+
+        assertNotNull(returnedLoan);
+
+        assertEquals(LoanStatus.RETURNED, returnedLoan.getStatus());
+
+        assertEquals(1, library.getAvailableQuantityOfBooks(book));
     }
 
-    /**
-     * This method creates a new loan with for the User identify by the userId and the book identify by the isbn,
-     * the loan should be store in the list of loans, to successfully create a loan is required to validate that the
-     * book is available, that the user exist and the same user could not have a loan for the same book
-     * {@link LoanStatusTest#ACTIVE}, once these requirements are meet the amount of books is
-     * decreased and the loan should be created with {@link LoanStatusTest#ACTIVE} status and
-     * the loan date should be the current date.
-     *
-     * @param userId id of the user.
-     * @param isbn book identification.
-     *
-     * @return The new created loan.
-     */
-    public LoanTest loanABook(String userId, String isbn) {
-        //TODO Implement the login of loan a book to a user based on the UserId and the isbn.
-        return null;
+    @Test
+    public void shouldIncreaseBookQuantityWhenLoanIsReturned() {
+        Book book = new Book("El Quijote", "Miguel Saavedra", "1001");
+        Library library = new Library();
+        library.addBook(book);
+        Loan loan = new Loan();
+        loan.setStatus(LoanStatus.ACTIVE);
+        loan.setBook(book);
+
+        int initialQuantity = library.getAvailableQuantityOfBooks(book); // Cantidad antes de la devolución
+
+        Loan returnedLoan = library.returnLoan(loan);
+
+        int updatedQuantity = library.getAvailableQuantityOfBooks(book); // Cantidad después de la devolución
+
+        assertEquals(initialQuantity + 1, updatedQuantity);
+        assertEquals(LoanStatus.RETURNED, returnedLoan.getStatus());
+
     }
 
-    /**
-     * This method return a loan, meaning that the amount of books should be increased by 1, the status of the Loan
-     * in the loan list should be {@link LoanStatusTest#RETURNED} and the loan return
-     * date should be the current date, validate that the loan exist.
-     *
-     * @param loan loan to return.
-     *
-     * @return the loan with the RETURNED status.
-     */
-    public LoanTest returnLoan(LoanTest loan) {
-        //TODO Implement the login of loan a book to a user based on the UserId and the isbn.
-        return null;
+
+    @Test
+    public void shouldAddUserToLibrary(){
+        User user = new User();
+        Library library = new Library();
+        library.addUser(user);
+
+        //Ver que la cantidad de usuarios aumente
+        assertEquals(1, library.getQuantityOfUsers());
+
+        //Verificar que la cantidad de usuarios aumente
+        User user2= new User();
+        library.addUser(user2);
+        assertEquals(2, library.getQuantityOfUsers());
     }
 
-    public boolean addUser(UserTest user) {
-        return users.add(user);
+
+    @Test
+    public void shouldAddUserSuccessfully() {
+        User user = new User();
+        Library library = new Library();
+        boolean added = library.addUser(user);
+        // Verificar que se agrego exitosamente un usuario
+        assertTrue(added);
     }
 
+    @Test
+    void shouldNotAddNullUser(){
+        User user = null;
+        Library library = new Library();
+        boolean added = library.addUser(user);
+        // Verificar que no se agrego un usuario nulo
+        assertFalse(added);
+    }
+
+    // LoanABook
+
+    @Test
+    public void shouldDecreaseTheAmountOfABookWhenLoan(){
+        Library library = new Library();
+        Book testBook = new Book("100 años de soledad", "Gabriel Garcia", "1000");
+        library.addBook(testBook);
+        User user = new User();
+        user.setName("Pepito Perez");
+        user.setId("123456");
+        library.addUser(user);
+
+        Loan testLoan = library.loanABook("123456", "1000");
+
+        assertEquals(0, library.getAvailableQuantityOfBooks(testBook));
+    }
+
+    @Test
+    public void shouldLoanSuccessfully(){
+        Library library = new Library();
+        Book testBook = new Book("100 años de soledad", "Gabriel Garcia", "1000");
+        library.addBook(testBook);
+        User user = new User();
+        user.setName("Pepito Perez");
+        user.setId("123456");
+        library.addUser(user);
+
+        Loan testLoan = library.loanABook("123456", "1000");
+
+        assertEquals(LoanStatus.ACTIVE, testLoan.getStatus());
+        assertEquals(0, library.getAvailableQuantityOfBooks(testBook));
+    }
+
+    @Test
+    public void shouldVerifyIfTheLoanUserExist(){
+        Library library = new Library();
+        Book testBook = new Book("100 años de soledad", "Gabriel Garcia", "1000");
+        library.addBook(testBook);
+
+        Loan testLoan = library.loanABook("000000", "1000");
+
+        assertEquals(LoanStatus.RETURNED, testLoan.getStatus());
+        assertEquals(1, library.getAvailableQuantityOfBooks(testBook));
+    }
+
+    @Test
+    public void shouldNotLoanANonExistingBook(){
+        Library library = new Library();
+        Book testBook = new Book("100 años de soledad", "Gabriel Garcia", "1000");
+        library.addBook(testBook);
+        User user = new User();
+        user.setName("Pepito Perez");
+        user.setId("123456");
+        library.addUser(user);
+
+        Loan testLoan = library.loanABook("123456", "1001");
+
+        assertEquals(LoanStatus.RETURNED, testLoan.getStatus());
+        assertEquals(1, library.getAvailableQuantityOfBooks(testBook));
+    }
+
+    @Test
+    public void shouldNotLoanAnOutOfStockBook(){
+        Library library = new Library();
+        Book testBook = new Book("100 años de soledad", "Gabriel Garcia", "1000");
+        library.addBook(testBook);
+        User user = new User();
+        user.setName("Pepito Perez");
+        user.setId("123456");
+        library.addUser(user);
+
+        Loan loan = library.loanABook("123456", "1000");
+        Loan testLoan = library.loanABook("123456", "1000");
+
+        assertEquals(LoanStatus.RETURNED, testLoan.getStatus());
+        assertEquals(0, library.getAvailableQuantityOfBooks(testBook));
+    }
 }
