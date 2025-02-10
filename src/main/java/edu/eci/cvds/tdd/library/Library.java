@@ -92,4 +92,7 @@ public class Library {
         return books.get(book);
     }
 
+    public int getQuantityOfUsers(){    return users.size(); }
+
+
 }
