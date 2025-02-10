@@ -2,6 +2,7 @@ package edu.eci.cvds.tdd.library;
 
 import edu.eci.cvds.tdd.library.book.Book;
 import edu.eci.cvds.tdd.library.loan.Loan;
+import edu.eci.cvds.tdd.library.loan.LoanStatus;
 import edu.eci.cvds.tdd.library.user.User;
 
 import java.util.ArrayList;
@@ -35,8 +36,8 @@ public class Library {
      * @return true if the book was stored false otherwise.
      */
     public boolean addBook(Book book) {
-        //TODO Implement the logic to add a new book into the map.
-        return false;
+        books.put(book, books.getOrDefault(book, 0) + 1);
+        return true;
     }
 
     /**
@@ -53,8 +54,37 @@ public class Library {
      * @return The new created loan.
      */
     public Loan loanABook(String userId, String isbn) {
-        //TODO Implement the login of loan a book to a user based on the UserId and the isbn.
-        return null;
+        Loan actualLoan = new Loan();
+        boolean flag1 = false;
+        boolean flag2 = false;
+        Book bookToCheck = null;
+        User userToCheck = null;
+        for (Book book : books.keySet()) {
+            if(book.getIsbn().equals(isbn)){
+                if(getAvailableQuantityOfBooks(book) > 0){
+                    flag1 = true;
+                    bookToCheck = book;
+                    break;
+                }
+            }
+        }
+        for (User u : users) {
+            if(u.getId().equals(userId)){
+                flag2 = true;
+                userToCheck = u;
+                break;
+            }
+        }
+        if(flag1 && flag2){
+            actualLoan.setStatus(LoanStatus.ACTIVE);
+            actualLoan.setBook(bookToCheck);
+            actualLoan.setUser(userToCheck);
+            books.put(bookToCheck, books.get(bookToCheck) - 1);
+        }
+        else{
+            actualLoan.setStatus(LoanStatus.RETURNED);
+        }
+        return actualLoan;
     }
 
     /**

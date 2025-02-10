@@ -6,9 +6,6 @@ import edu.eci.cvds.tdd.library.loan.Loan;
 import edu.eci.cvds.tdd.library.loan.LoanStatus;
 import edu.eci.cvds.tdd.library.user.User;
 
-import edu.eci.cvds.tdd.library.user.User;
-import edu.eci.cvds.tdd.library.loan.*;
-
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
@@ -191,6 +188,4 @@ public class LibraryTest {
         assertEquals(LoanStatus.RETURNED, testLoan.getStatus());
         assertEquals(0, library.getAvailableQuantityOfBooks(testBook));
     }
-
-
 }
