@@ -18,11 +18,8 @@
     <sonar.projectName>library</sonar.projectName>
     <sonar.host.url>http://localhost:9000</sonar.host.url>
     <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-<<<<<<< HEAD
     <sonar.coverage.exclusions>src/main/java/configurators/*</sonar.coverage.exclusions>
-=======
     <sonar.coverage.exclusions>src//configurators/*</sonar.coverage.exclusions>
->>>>>>> 04b9d1b5e4b3549866d898a01ee18257992952fb
   </properties>
 
   <build>
