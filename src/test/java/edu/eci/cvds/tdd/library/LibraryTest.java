@@ -44,15 +44,21 @@ public class LibraryTest {
     public void shouldReturnLoanSuccessfuly(){
         Library library = new Library();
         User user = new User();
+        user.setName("Pepito");
+        user.setId("1234");
         Book book = new Book("El Quijote", "Miguel Saavedra", "1001");
 
         library.addUser(user);
         library.addBook(book);
 
         // Simulamos un préstamo activo
-        Loan loan = new Loan();
-        library.loanABook(user.getId(), book.getIsbn());
+        Loan loan = library.loanABook(user.getId(), book.getIsbn());
+
+        assertNotNull(loan);
+
         Loan returnedLoan = library.returnLoan(loan);
+
+        assertNotNull(returnedLoan);
 
         assertEquals(LoanStatus.RETURNED, returnedLoan.getStatus());
 
@@ -63,7 +69,10 @@ public class LibraryTest {
     public void shouldIncreaseBookQuantityWhenLoanIsReturned() {
         Book book = new Book("El Quijote", "Miguel Saavedra", "1001");
         Library library = new Library();
+        library.addBook(book);
         Loan loan = new Loan();
+        loan.setStatus(LoanStatus.ACTIVE);
+        loan.setBook(book);
 
         int initialQuantity = library.getAvailableQuantityOfBooks(book); // Cantidad antes de la devolución
 
