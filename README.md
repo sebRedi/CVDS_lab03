@@ -2,17 +2,7 @@
 - Sebastian Galvis Briceño
 - Julian Santiago Cardenas 
 
-<<<<<<< HEAD
 
-
-
-
-
-
-
-
-
-=======
 ## Creación del proyecto
 
 Empezamos creando un proyecto maven con los siguientes parámetros:
