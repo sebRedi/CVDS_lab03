@@ -108,3 +108,28 @@ Finalmente, luego de las pruebas unitarias y las implementaciones correspondient
 
 ![img.png](src/IMG/Jacoco.png)
 Cobertura de las pruebas
+
+### SONARQUBE
+
+Agregamos los siguientes codigos al pom.xml como se nos indica, con el fin de añadir SonarQube.
+```xml
+<plugin>
+    <groupId>org.sonarsource.scanner.maven</groupId>
+    <artifactId>sonar-maven-plugin</artifactId>
+    <version>4.0.0.4121</version>
+</plugin>
+```
+
+Propiedades de SonarQube y Jacoco
+
+```xml
+    <sonar.projectKey>library</sonar.projectKey>
+    <sonar.projectName>library</sonar.projectName>
+    <sonar.host.url>http://localhost:9000</sonar.host.url>
+    <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    <sonar.coverage.exclusions>src//configurators/*</sonar.coverage.exclusions>
+```
+Luego de seguir los pasos estipulados en el laboratorio realizamos el proceso usando SonarQube para obtener el siguiente resultado:
+
+![img.png](src/IMG/sonar.jpg)
+
