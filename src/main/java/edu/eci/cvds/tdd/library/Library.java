@@ -75,4 +75,21 @@ public class Library {
         return users.add(user);
     }
 
+    /**
+     * TDD: Obtain the quantity of books in the library
+     * @return library's size
+     */
+    public int getQuantityOfBooks(){
+        return books.size();
+    }
+
+    /**
+     * TDD: Obtain the available quantity of a book
+     * @param book Book to search
+     * @return book's availability
+     */
+    public int getAvailableQuantityOfBooks(Book book){
+        return books.get(book);
+    }
+
 }

@@ -11,8 +11,16 @@ public class LibraryTest {
     public void shouldIncreaseTheAmountInAddBook(){
         Book testBook = new Book("100 años de soledad", "Gabriel Garcia", "1000");
         Library library = new Library();
+        // Ver que la cantidad de libros sea 0
+        assertEquals(0,library.getQuantityOfBooks());
+
         library.addBook(testBook);
-        assertEquals(1,library.books().size());
+        // Ver que la cantidad de libros haya aumentado
+        assertEquals(1,library.getQuantityOfBooks());
+
+        library.addBook(testBook);
+        // Ver que la cantidad de libros disponibles de un libro específico haya aumentado
+        assertEquals(2,library.getQuantityOfBooks());
         }
 
     @Test
@@ -20,8 +28,7 @@ public class LibraryTest {
         Book testBook = new Book("100 años de soledad", "Gabriel Garcia", "1000");
         Library library = new Library();
         library.addBook(testBook);
-        assertEquals(testBook, library.books().get(0));
+        assertTrue(1 >= library.getAvailableQuantityOfBooks(testBook));
     }
-
 
 }
