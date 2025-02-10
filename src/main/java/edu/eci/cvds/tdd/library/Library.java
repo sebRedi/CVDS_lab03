@@ -37,7 +37,17 @@ public class Library {
      * @return true if the book was stored false otherwise.
      */
     public boolean addBook(Book book) {
-        books.put(book, books.getOrDefault(book, 0) + 1);
+        boolean flag = false;
+        for(Book b : books.keySet()){
+            if(b.equals(book)){
+                books.put(b, books.get(b)+1);
+                flag = true;
+                break;
+            }
+        }
+        if(!flag){
+            books.put(book, 1);
+        }
         return true;
     }
 

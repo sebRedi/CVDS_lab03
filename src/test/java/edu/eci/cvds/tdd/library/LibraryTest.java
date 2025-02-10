@@ -25,11 +25,11 @@ public class LibraryTest {
 
         library.addBook(testBook);
         // Ver que la cantidad de libros haya aumentado
-        assertEquals(1,library.getQuantityOfBooks());
+        assertEquals(1,library.getAvailableQuantityOfBooks(testBook));
 
         library.addBook(testBook);
         // Ver que la cantidad de libros disponibles de un libro específico haya aumentado
-        assertEquals(2,library.getQuantityOfBooks());
+        assertEquals(2,library.getAvailableQuantityOfBooks(testBook));
         }
 
     @Test
